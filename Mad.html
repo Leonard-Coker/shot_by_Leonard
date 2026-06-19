@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shot_by_leonard — Event Gallery</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#f28c28;--dark:#111;--light:#fff6ea;--red:#c62828;
+  --bg:#f7f5f1;--card:#fff;--border:#ececec;--muted:#6b7280;--text:#171717;
+  --radius:12px;--shadow:0 8px 24px rgba(17,17,17,.06);
+}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.site-header{background:var(--dark);color:#fff;border-bottom:3px solid var(--orange);position:sticky;top:0;z-index:200}
+.header-inner{display:flex;align-items:center;gap:14px;padding:12px 24px}
+.logo-circle{width:48px;height:48px;border-radius:50%;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff;flex-shrink:0}
+.header-text h1{font-size:18px;font-weight:700;color:#fff;line-height:1.2}
+.header-text p{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.header-nav{margin-left:auto;display:flex;gap:4px;align-items:center}
+.nav-btn{background:none;border:none;color:rgba(255,255,255,.75);font-size:12px;font-weight:600;padding:7px 13px;border-radius:999px;cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.nav-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-btn.active{background:var(--orange);color:#fff}
+.menu-btn{background:var(--orange);border:none;color:#fff;width:38px;height:38px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;margin-left:8px;flex-shrink:0}
+
+/* COUNTDOWN */
+#countdown-bar{background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;gap:14px;padding:8px 16px;font-size:12px;flex-wrap:wrap}
+.cd-units{display:flex;gap:8px}
+.cd-unit{background:rgba(255,255,255,.2);border-radius:6px;padding:3px 10px;text-align:center;min-width:48px}
+.cd-num{display:block;font-size:18px;font-weight:700;line-height:1.1}
+.cd-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.06em;opacity:.8}
+.cd-badge{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
+
+/* DRAWER */
+.side-drawer{position:fixed;top:0;left:-260px;width:240px;height:100%;background:var(--dark);z-index:500;transition:left .2s;padding:16px 12px;overflow-y:auto}
+.side-drawer.open{left:0}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:490;display:none}
+.drawer-overlay.show{display:block}
+.drawer-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;display:block;margin-bottom:12px;margin-left:auto;padding:4px}
+.drawer-logo{display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:8px}
+.drawer-logo .logo-circle{width:38px;height:38px;font-size:14px}
+.drawer-logo span{color:#fff;font-size:14px;font-weight:600}
+.drawer-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:rgba(255,255,255,.8);font-size:13px;padding:11px 14px;border-radius:8px;cursor:pointer;text-align:left;font-weight:600;transition:all .15s}
+.drawer-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.drawer-item i{font-size:16px;color:var(--orange)}
+.drawer-divider{border:none;border-top:1px solid rgba(255,255,255,.08);margin:8px 0}
+
+/* MAIN */
+main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+.page{display:none}
+.page.active{display:block}
+.section-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.metric{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.metric .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.metric .val{font-size:26px;font-weight:700;margin-top:4px}
+.metric .sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* GALLERY */
+.gallery-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.photo-count{background:var(--light);color:var(--orange);padding:3px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.day-section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;box-shadow:var(--shadow)}
+.day-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.day-header h3{font-size:15px;font-weight:700}
+.day-header span{font-size:12px;color:var(--muted)}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.photo-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.photo-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(17,17,17,.10)}
+.photo-thumb{width:100%;height:160px;object-fit:cover;display:block}
+.photo-footer{padding:8px 10px;display:flex;align-items:center;justify-content:space-between}
+.photo-name{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px}
+.btn-dl{background:var(--orange);color:#fff;border:none;border-radius:5px;padding:5px 11px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:4px}
+.btn-dl:hover{background:#e07800}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state i{font-size:52px;display:block;margin-bottom:14px;color:var(--orange);opacity:.35}
+.empty-state p{font-size:15px;margin-bottom:4px}
+.empty-state small{font-size:12px}
+
+/* ABOUT */
+.about-hero{background:var(--dark);border-radius:var(--radius);padding:32px 26px;margin-bottom:16px;color:#fff;position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;right:-20px;top:-20px;width:130px;height:130px;border-radius:50%;background:var(--orange);opacity:.15}
+.about-hero h2{font-size:24px;font-weight:700;color:#fff;margin-bottom:8px}
+.about-hero p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.7;max-width:480px}
+.about-orange{color:var(--orange)}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.about-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.about-item i{font-size:24px;color:var(--orange);margin-bottom:10px;display:block}
+.about-item h4{font-size:13px;font-weight:700;margin-bottom:5px}
+.about-item p{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.contact-layout{grid-template-columns:1fr}}
+.contact-form-panel,.social-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.contact-form-panel h3,.social-panel h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.contact-form-panel h3 i,.social-panel h3 i{color:var(--orange);font-size:18px}
+.form-stack{display:grid;gap:10px}
+.form-stack input,.form-stack textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:#fff;outline:none;font-family:inherit}
+.form-stack input:focus,.form-stack textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(242,140,40,.1)}
+.form-stack textarea{min-height:100px;resize:vertical}
+.btn-primary{background:var(--orange);color:#fff;border:none;border-radius:7px;padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;width:100%;margin-top:2px;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .15s}
+.btn-primary:hover{background:#e07800}
+.social-stack{display:grid;gap:8px}
+.social-item{display:flex;align-items:center;gap:12px;background:var(--light);border-radius:10px;padding:13px 14px;text-decoration:none;color:var(--text);transition:background .15s}
+.social-item:hover{background:#ffe9cc}
+.social-item i{font-size:20px;color:var(--orange);flex-shrink:0}
+.social-item .s-main{font-size:13px;font-weight:700}
+.social-item .s-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* ADMIN */
+.admin-login-wrap{max-width:360px;margin:40px auto 0}
+.lock-circle{width:60px;height:60px;border-radius:50%;background:var(--light);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;color:var(--orange)}
+.login-title{font-size:18px;font-weight:700;text-align:center;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:22px}
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.form-group input,.form-group select{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:#fff;outline:none;font-family:inherit}
+.form-group input:focus,.form-group select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(242,140,40,.1)}
+.login-err{color:var(--red);font-size:12px;text-align:center;margin-top:8px;display:none}
+.admin-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.admin-card h2{font-size:16px;font-weight:700;margin-bottom:4px}
+.admin-card .sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+@media(max-width:520px){.settings-grid{grid-template-columns:1fr}}
+.upload-zone{border:2px dashed var(--orange);border-radius:var(--radius);background:var(--light);padding:32px 16px;text-align:center;cursor:pointer;position:relative}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone i{font-size:34px;color:var(--orange);display:block;margin-bottom:8px}
+.upload-zone p{font-size:13px;color:var(--orange);font-weight:600}
+.upload-zone small{font-size:11px;color:var(--muted)}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:12px}
+.preview-thumb{position:relative;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.preview-thumb img{width:100%;height:72px;object-fit:cover;display:block}
+.preview-rm{position:absolute;top:3px;right:3px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center}
+.admin-photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.admin-photo-item{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.admin-photo-item img{width:100%;height:100px;object-fit:cover;display:block}
+.admin-photo-item .foot{padding:6px 8px;display:flex;justify-content:space-between;align-items:center}
+.admin-photo-item .foot span{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:72px}
+.btn-danger{background:#fff;color:var(--red);border:1px solid var(--red);border-radius:5px;padding:3px 8px;font-size:10px;font-weight:600;cursor:pointer}
+.btn-logout{background:#fff;color:var(--red);border:1px solid var(--red);border-radius:7px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px}
+.select-field{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:#fff;outline:none;font-family:inherit}
+.select-field:focus{border-color:var(--orange)}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+.lightbox.open{opacity:1;pointer-events:all}
+.lb-inner{position:relative;max-width:860px;width:100%;text-align:center}
+.lb-inner img{max-width:100%;max-height:80vh;border-radius:6px}
+.lb-close{position:absolute;top:-12px;right:-12px;background:#fff;color:var(--text);border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.lb-actions{margin-top:12px;display:flex;justify-content:center}
+.lb-dl{background:var(--orange);color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.lb-name{color:rgba(255,255,255,.6);font-size:12px;margin-top:8px}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--dark);color:#fff;padding:11px 18px;border-radius:8px;font-size:13px;transform:translateY(60px);opacity:0;transition:all .3s;z-index:2000}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:760px){
+  .header-nav{display:none}
+  .header-inner{padding:12px 16px}
+}
+@media(max-width:480px){
+  .header-text h1{font-size:15px}
+  main{padding:18px 14px 60px}
+}
+.profile-pic {
+  width: 48px; height: 48px; border-radius: 50%; object-fit: cover;
+  border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.drawer-profile-pic {
+  width: 38px; height: 38px; border-radius: 50%; object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+ <div class="header-inner">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img id="header-profile" class="profile-pic" src="" alt="Leonard" style="display:none;">
+      <div class="logo-circle" id="default-logo">SL</div>
+    </div>
+    <div class="header-text">
+      <h1 id="ev-title">Shot_by_leonard</h1>
+      <p id="ev-sub">At Youth Connekt MRU FORUM 26</p>
+    </div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <button class="nav-btn active" onclick="goPage('gallery',this)"><i class="ti ti-camera" aria-hidden="true"></i> Gallery</button>
+      <button class="nav-btn" onclick="goPage('about',this)"><i class="ti ti-info-circle" aria-hidden="true"></i> About</button>
+      <button class="nav-btn" onclick="goPage('contact',this)"><i class="ti ti-mail" aria-hidden="true"></i> Contact</button>
+      <button class="nav-btn" onclick="goPage('dashboard',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Dashboard</button>
+    </nav>
+    <button class="menu-btn" onclick="openDrawer()" aria-label="Open menu"><i class="ti ti-menu-2" aria-hidden="true"></i></button>
+  </div>
+  <div id="countdown-bar">
+    <span style="font-weight:600">Download available for:</span>
+    <div class="cd-units">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">--</span><span class="cd-lbl">Days</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">--</span><span class="cd-lbl">Hrs</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">--</span><span class="cd-lbl">Mins</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">--</span><span class="cd-lbl">Secs</span></div>
+    </div>
+    <span class="cd-badge" id="cd-badge">Active</span>
+  </div>
+</header>
+
+<!-- SIDE DRAWER -->
+<div class="side-drawer" id="drawer" role="dialog" aria-label="Navigation menu">
+  <button class="drawer-close" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
+  <div class="drawer-logo">
+    <img id="drawer-profile" class="drawer-profile-pic" src="" alt="Leonard" style="display:none;">
+    <div class="logo-circle" id="drawer-default-logo" style="display:block;">SL</div>
+    <span>Shot_by_leonard</span>
+  </div>
+  <hr class="drawer-divider">
+  <button class="drawer-item" onclick="goPage('gallery');closeDrawer()"><i class="ti ti-camera"></i> Gallery</button>
+  <button class="drawer-item" onclick="goPage('about');closeDrawer()"><i class="ti ti-info-circle"></i> About us</button>
+  <button class="drawer-item" onclick="goPage('contact');closeDrawer()"><i class="ti ti-mail"></i> Contact</button>
+  <button class="drawer-item" onclick="goPage('dashboard');closeDrawer()"><i class="ti ti-chart-bar"></i> Dashboard</button>
+  <hr class="drawer-divider">
+  <button class="drawer-item" onclick="goPage('admin');closeDrawer()"><i class="ti ti-lock"></i> Admin</button>
+</div>
+
+<main>
+
+  <!-- GALLERY PAGE -->
+  <div id="page-gallery" class="page active">
+    <div class="gallery-header">
+      <div>
+        <div class="section-title">Event Photos <span class="photo-count" id="photo-count">0 photos</span></div>
+        <div class="section-sub" style="margin-bottom:0">Browse and download your memories</div>
+      </div>
+    </div>
+    <div id="gallery-root"></div>
+  </div>
+
+  <!-- DASHBOARD PAGE -->
+  <div id="page-dashboard" class="page">
+    <div class="section-title">Dashboard</div>
+    <div class="section-sub">Overview of gallery activity</div>
+    <div class="dash-grid" id="dash-metrics"></div>
+    <div class="card" style="margin-bottom:16px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Photos by day</div>
+      <div id="day-bars"></div>
+    </div>
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Recent uploads</div>
+      <div id="recent-uploads" class="admin-photo-grid"></div>
+    </div>
+  </div>
+
+  <!-- ABOUT PAGE -->
+  <div id="page-about" class="page">
+    <div class="about-hero">
+      <h2>About <span class="about-orange">Shot_by_leonard</span></h2>
+      <p>Capturing moments that matter — from youth summits to cultural events across Sierra Leone and beyond. Every frame tells a story worth keeping.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-item">
+        <i class="ti ti-camera" aria-hidden="true"></i>
+        <h4>Event Photography</h4>
+        <p>Professional coverage of conferences, forums, and community events with an eye for authentic moments.</p>
+      </div>
+      <div class="about-item">
+        <i class="ti ti-photo" aria-hidden="true"></i>
+        <h4>Portrait &amp; Headshots</h4>
+        <p>Clean, confident portraits for professionals, creatives, and public figures.</p>
+      </div>
+      <div class="about-item">
+        <i class="ti ti-devices" aria-hidden="true"></i>
+        <h4>Digital Delivery</h4>
+        <p>Fast turnaround with high-resolution downloads available right here on this gallery.</p>
+      </div>
+      <div class="about-item">
+        <i class="ti ti-map-pin" aria-hidden="true"></i>
+        <h4>Based in Sierra Leone</h4>
+        <p>Available for local and international events. Reach out via the contact page to discuss bookings.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT PAGE -->
+  <div id="page-contact" class="page">
+    <div class="section-title">Contact</div>
+    <div class="section-sub">Get in touch for bookings, prints, or collaboration</div>
+    <div class="contact-layout">
+      <div class="contact-form-panel">
+        <h3><i class="ti ti-send" aria-hidden="true"></i> Send a message</h3>
+        <div class="form-stack">
+          <input type="text" placeholder="Your name">
+          <input type="email" placeholder="Your email">
+          <input type="text" placeholder="Subject">
+          <textarea placeholder="Your message"></textarea>
+          <button class="btn-primary" onclick="showToast('Message sent! Leonard will be in touch.')"><i class="ti ti-send" aria-hidden="true"></i> Send Message</button>
+        </div>
+      </div>
+      <div class="social-panel">
+        <h3><i class="ti ti-brand-instagram" aria-hidden="true"></i> Find me online</h3>
+        <div class="social-stack">
+          <a href="https://instagram.com/shot_by_Leonard" target="_blank" rel="noopener" class="social-item">
+            <i class="ti ti-brand-instagram" aria-hidden="true"></i>
+            <div>
+              <div class="s-main">@shot_by_Leonard</div>
+              <div class="s-sub">Photography portfolio</div>
+            </div>
+          </a>
+          <a href="https://instagram.com/iamleonardcoker" target="_blank" rel="noopener" class="social-item">
+            <i class="ti ti-user-circle" aria-hidden="true"></i>
+            <div>
+              <div class="s-main">@iamleonardcoker</div>
+              <div class="s-sub">Personal Instagram</div>
+            </div>
+          </a>
+          <div class="social-item" style="cursor:default">
+            <i class="ti ti-calendar" aria-hidden="true"></i>
+            <div>
+              <div class="s-main">Book a session</div>
+              <div class="s-sub">Use the form to enquire</div>
+            </div>
+          </div>
+          <div class="social-item" style="cursor:default">
+            <i class="ti ti-map-pin" aria-hidden="true"></i>
+            <div>
+              <div class="s-main">Freetown, Sierra Leone</div>
+              <div class="s-sub">Available for travel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PAGE -->
+  <div id="page-admin" class="page">
+
+    <div id="admin-login-wrap">
+      <div class="card admin-login-wrap">
+        <div class="lock-circle"><i class="ti ti-lock" aria-hidden="true"></i></div>
+        <div class="login-title">Admin access</div>
+        <div class="login-sub">Enter your password to manage gallery photos</div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="admin-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPw()">
+        </div>
+        <button class="btn-primary" onclick="checkPw()"><i class="ti ti-login" aria-hidden="true"></i> Log in</button>
+        <div class="login-err" id="login-err">Incorrect password. Try again.</div>
+      </div>
+    </div>
+
+    <div id="admin-panel" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+        <div class="section-title">Admin panel</div>
+        <button class="btn-logout" onclick="adminLogout()"><i class="ti ti-logout" aria-hidden="true"></i> Log out</button>
+      </div>
+
+      <!-- Event Settings -->
+      <div class="admin-card">
+        <h2>Event settings</h2>
+        <p class="sub">Update the event name and set the 3-day download window</p>
+        <div class="settings-grid">
+          <div class="form-group" style="margin:0">
+            <label>Event name</label>
+            <input type="text" id="ev-name-in" placeholder="e.g. Youth Connect Summit">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Event date (start of 3-day window)</label>
+            <input type="date" id="ev-date-in">
+          </div>
+        </div>
+        <button class="btn-primary" style="width:auto" onclick="saveSettings()"><i class="ti ti-check" aria-hidden="true"></i> Save settings</button>
+      </div>
+      <!-- PROFILE PICTURE SETTINGS -->
+        <div class="admin-card">
+  <h2>Profile Picture</h2>
+  <p class="sub">Upload or change the photographer profile picture</p>
+
+  <div class="upload-zone">
+    <input type="file" id="profile-pic-input" accept="image/*" onchange="changeProfilePic(this.files)">
+    <i class="ti ti-user-circle"></i>
+    <p>Upload Profile Picture</p>
+    <small>JPG, PNG, WEBP — Max 5MB recommended</small>
+  </div>
+
+  <div style="margin-top:15px;text-align:center">
+    <img id="profile-preview" src="" alt="Profile Picture" 
+         style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--orange);display:none;">
+  </div>
+</div>
+
+  <div style="margin-top:15px;text-align:center">
+    <img id="profile-preview"
+         src=""
+         alt="Profile Picture"
+         style="
+           width:120px;
+           height:120px;
+           border-radius:50%;
+           object-fit:cover;
+           border:3px solid var(--orange);
+           display:none;">
+  </div>
+</div>
+
+      <!-- Upload -->
+      <div class="admin-card">
+        <h2>Upload photos</h2>
+        <p class="sub">Select photos and assign them to a day</p>
+        <div class="form-group">
+          <label>Photo day</label>
+          <select class="select-field" id="day-sel">
+            <option value="Day 1">Day 1</option>
+            <option value="Day 2">Day 2</option>
+            <option value="Day 3">Day 3</option>
+          </select>
+        </div>
+        <div class="upload-zone">
+          <input type="file" id="file-in" multiple accept="image/*" onchange="handleFiles(this.files)">
+          <i class="ti ti-upload" aria-hidden="true"></i>
+          <p>Click to select or drag &amp; drop</p>
+          <small>JPG, PNG, WEBP — multiple files allowed</small>
+        </div>
+        <div class="preview-grid" id="preview-grid"></div>
+        <div id="upload-actions" style="margin-top:12px;display:none">
+          <button class="btn-primary" style="width:auto" onclick="addPhotos()"><i class="ti ti-photo-plus" aria-hidden="true"></i> Add to gallery</button>
+        </div>
+      </div>
+
+      <!-- Manage -->
+      <div class="admin-card">
+        <h2>Manage photos</h2>
+        <p class="sub">Remove photos from the gallery</p>
+        <div class="admin-photo-grid" id="admin-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /page-admin -->
+
+</main>
+
+<footer style="text-align:center;color:var(--muted);font-size:12px;padding:24px 12px 40px">
+  &copy; 2026 Shot_by_leonard. All rights reserved.
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLb(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLb()"><i class="ti ti-x"></i></button>
+    <img id="lb-img" src="" alt="">
+    <p class="lb-name" id="lb-name"></p>
+    <div class="lb-actions">
+      <a id="lb-dl" class="lb-dl" download><i class="ti ti-download" aria-hidden="true"></i> Download</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PW = "Leonard23";
+let photos = [];
+let settings = {name:"Shot_by_leonard", date:"", subtitle:"At Youth Connekt MRU FORUM 26"};
+let pending = [];
+let cdTimer;
+
+try { photos = JSON.parse(localStorage.getItem('ev_photos') || '[]'); } catch(e){}
+try { const s = JSON.parse(localStorage.getItem('ev_settings') || '{}'); if(s.name) settings = {...settings, ...s}; } catch(e){}
+
+function save(){ localStorage.setItem('ev_photos', JSON.stringify(photos)); }
+function saveSt(){ localStorage.setItem('ev_settings', JSON.stringify(settings)); }
+
+// PAGE SWITCHING
+function goPage(id, btn){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  if(id === 'dashboard') renderDash();
+  if(id === 'gallery') renderGallery();
+}
+
+// DRAWER
+function openDrawer(){ document.getElementById('drawer').classList.add('open'); document.getElementById('overlay').classList.add('show'); }
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeDrawer(); document.getElementById('lightbox').classList.remove('open'); }});
+
+// ADMIN AUTH
+function checkPw(){
+  if(document.getElementById('admin-pw').value === PW){
+    document.getElementById('admin-login-wrap').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    const ni = document.getElementById('ev-name-in');
+    const di = document.getElementById('ev-date-in');
+    if(ni) ni.value = settings.name || '';
+    if(di) di.value = settings.date || '';
+    renderAdminList();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+function adminLogout(){
+  document.getElementById('admin-login-wrap').style.display = 'block';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('login-err').style.display = 'none';
+}
+
+// SETTINGS
+function saveSettings(){
+  settings.name = document.getElementById('ev-name-in').value || 'Shot_by_leonard';
+  settings.date = document.getElementById('ev-date-in').value;
+  saveSt();
+  document.getElementById('ev-title').textContent = settings.name;
+  if(settings.date) startCd(settings.date);
+  showToast('Settings saved!');
+}
+
+// COUNTDOWN
+function startCd(dateStr){
+  clearInterval(cdTimer);
+  const end = new Date(dateStr).getTime() + (3 * 86400000);
+  function tick(){
+    const diff = end - Date.now();
+    const bar = document.getElementById('countdown-bar');
+    const badge = document.getElementById('cd-badge');
+    if(diff <= 0){
+      ['d','h','m','s'].forEach(k => document.getElementById('cd-' + k).textContent = '00');
+      bar.style.background = '#a81f00';
+      badge.textContent = 'Expired';
+      clearInterval(cdTimer); return;
+    }
+    bar.style.background = '';
+    badge.textContent = 'Active';
+    document.getElementById('cd-d').textContent = String(Math.floor(diff / 86400000)).padStart(2,'0');
+    document.getElementById('cd-h').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
+  }
+  tick(); cdTimer = setInterval(tick, 1000);
+}
+
+// FILE UPLOAD
+function handleFiles(files){
+  pending = [];
+  const grid = document.getElementById('preview-grid');
+  grid.innerHTML = '';
+  Array.from(files).forEach((f, i) => {
+    const r = new FileReader();
+    r.onload = e => {
+      pending.push({name: f.name, data: e.target.result, size: f.size});
+      const d = document.createElement('div');
+      d.className = 'preview-thumb';
+      d.innerHTML = '<img src="' + e.target.result + '" alt=""><button class="preview-rm" onclick="removePending(' + i + ')">&#x2715;</button>';
+      grid.appendChild(d);
+      document.getElementById('upload-actions').style.display = pending.length ? 'block' : 'none';
+    };
+    r.readAsDataURL(f);
+  });
+}
+function removePending(i){
+  pending.splice(i, 1);
+  if(!pending.length){
+    document.getElementById('preview-grid').innerHTML = '';
+    document.getElementById('upload-actions').style.display = 'none';
+  }
+}
+function addPhotos(){
+  if(!pending.length) return;
+  const day = document.getElementById('day-sel').value || 'Day 1';
+  pending.forEach(f => photos.push({id: Date.now() + Math.random(), name: f.name, day, data: f.data, size: f.size || 0, ts: Date.now()}));
+  save(); renderGallery(); renderAdminList();
+  pending = [];
+  document.getElementById('preview-grid').innerHTML = '';
+  document.getElementById('upload-actions').style.display = 'none';
+  document.getElementById('file-in').value = '';
+  showToast(photos.length + ' photo' + (photos.length !== 1 ? 's' : '') + ' in gallery');
+}
+
+// GALLERY RENDER
+function renderGallery(){
+  const root = document.getElementById('gallery-root');
+  const cnt = document.getElementById('photo-count');
+  cnt.textContent = photos.length + ' photo' + (photos.length !== 1 ? 's' : '');
+  if(!photos.length){
+    root.innerHTML = '<div class="empty-state"><i class="ti ti-camera-off"></i><p>No photos yet</p><small>Photos appear here once the admin uploads them.</small></div>';
+    return;
+  }
+  const days = ['Day 1','Day 2','Day 3'];
+  const groups = days.map(d => ({d, items: photos.filter(p => (p.day||'Day 1') === d)})).filter(g => g.items.length);
+  root.innerHTML = groups.map(g => `
+    <div class="day-section">
+      <div class="day-header"><h3>${esc(g.d)}</h3><span>${g.items.length} photo${g.items.length !== 1 ? 's' : ''}</span></div>
+      <div class="gallery-grid">
+        ${g.items.map(p => `
+          <div class="photo-card" onclick="openLb('${p.id}')">
+            <img class="photo-thumb" src="${p.data}" alt="${esc(p.name)}">
+            <div class="photo-footer">
+              <span class="photo-name">${esc(p.name)}</span>
+              <a class="btn-dl" href="${p.data}" download="${esc(p.name)}" onclick="event.stopPropagation()">
+                <i class="ti ti-download" aria-hidden="true"></i> Save
+              </a>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ADMIN LIST
+function renderAdminList(){
+  const el = document.getElementById('admin-list');
+  if(!el) return;
+  if(!photos.length){ el.innerHTML = '<p style="color:var(--muted);font-size:12px">No photos yet.</p>'; return; }
+  el.innerHTML = photos.map(p => `
+    <div class="admin-photo-item">
+      <img src="${p.data}" alt="">
+      <div class="foot">
+        <span>${esc(p.name)}</span>
+        <button class="btn-danger" onclick="deletePhoto('${p.id}')"><i class="ti ti-trash" aria-hidden="true"></i></button>
+      </div>
+      <div style="padding:0 8px 6px;font-size:10px;color:var(--muted)">${esc(p.day||'Day 1')}</div>
+    </div>`).join('');
+}
+function deletePhoto(id){
+  photos = photos.filter(p => String(p.id) !== String(id));
+  save(); renderGallery(); renderAdminList(); renderDash();
+  showToast('Photo removed');
+}
+
+// DASHBOARD RENDER
+function renderDash(){
+  const m = document.getElementById('dash-metrics');
+  const days = ['Day 1','Day 2','Day 3'];
+  const byday = days.map(d => ({d, n: photos.filter(p => (p.day||'Day 1') === d).length}));
+  const totalSize = photos.reduce((a, p) => a + (p.size || 0), 0);
+  const sizeMB = (totalSize / 1048576).toFixed(1);
+  m.innerHTML = `
+    <div class="metric"><div class="lbl">Total photos</div><div class="val">${photos.length}</div><div class="sub">across all days</div></div>
+    <div class="metric"><div class="lbl">Days active</div><div class="val">${byday.filter(d => d.n > 0).length}</div><div class="sub">of 3 event days</div></div>
+    <div class="metric"><div class="lbl">Gallery size</div><div class="val">${sizeMB} MB</div><div class="sub">approx. total</div></div>
+    <div class="metric"><div class="lbl">Window status</div><div class="val" style="font-size:16px;margin-top:8px">${settings.date ? 'Active' : 'Not set'}</div><div class="sub">${settings.date ? '3-day window running' : 'Set event date in admin'}</div></div>
+  `;
+  const bars = document.getElementById('day-bars');
+  const max = Math.max(...byday.map(d => d.n), 1);
+  bars.innerHTML = byday.map(b => `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <div style="width:44px;font-size:12px;color:var(--muted);flex-shrink:0">${esc(b.d)}</div>
+      <div style="flex:1;background:#f0ede8;border-radius:5px;height:26px;overflow:hidden">
+        <div style="width:${Math.round((b.n/max)*100)}%;background:var(--orange);height:100%;border-radius:5px;transition:width .5s"></div>
+      </div>
+      <div style="width:28px;font-size:12px;font-weight:700;text-align:right">${b.n}</div>
+    </div>`).join('');
+  const rec = document.getElementById('recent-uploads');
+  const recent = [...photos].reverse().slice(0, 6);
+  if(!recent.length){ rec.innerHTML = '<p style="color:var(--muted);font-size:12px">No uploads yet.</p>'; return; }
+  rec.innerHTML = recent.map(p => `
+    <div class="admin-photo-item">
+      <img src="${p.data}" alt="">
+      <div class="foot"><span>${esc(p.name)}</span><span style="font-size:10px;color:var(--orange)">${esc(p.day||'Day 1')}</span></div>
+    </div>`).join('');
+}
+
+// LIGHTBOX
+function openLb(id){
+  const p = photos.find(ph => String(ph.id) === String(id));
+  if(!p) return;
+  document.getElementById('lb-img').src = p.data;
+  document.getElementById('lb-name').textContent = p.name;
+  const dl = document.getElementById('lb-dl');
+  dl.href = p.data; dl.download = p.name;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLb(e){
+  if(!e || e.target === document.getElementById('lightbox') || e.currentTarget.classList.contains('lb-close')){
+    document.getElementById('lightbox').classList.remove('open');
+  }
+}
+
+// UTILS
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// Add these variables
+let profilePic = null;
+
+// Load from localStorage
+try {
+  const savedPic = localStorage.getItem('ev_profile_pic');
+  if (savedPic) profilePic = savedPic;
+} catch(e){}
+
+// Save profile pic
+function saveProfilePic(data) {
+  profilePic = data;
+  localStorage.setItem('ev_profile_pic', data);
+  updateProfileDisplays();
+}
+
+// Update all profile picture displays
+function updateProfileDisplays() {
+  const imgs = [
+    document.getElementById('header-profile'),
+    document.getElementById('drawer-profile'),
+    document.getElementById('profile-preview')
+  ];
+  
+  imgs.forEach(img => {
+    if (profilePic) {
+      img.src = profilePic;
+      img.style.display = 'block';
+    }
+  });
+
+  // Hide default logos when pic is set
+  const defaultLogos = document.querySelectorAll('#default-logo, #drawer-default-logo');
+  defaultLogos.forEach(logo => {
+    if (profilePic) logo.style.display = 'none';
+    else logo.style.display = 'flex';
+  });
+}
+
+// Handle profile picture upload
+function changeProfilePic(files) {
+  if (!files || !files[0]) return;
+  
+  const file = files[0];
+  if (file.size > 8 * 1024 * 1024) { // 8MB limit
+    showToast("File too large. Please use under 8MB.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    saveProfilePic(e.target.result);
+    showToast("Profile picture updated!");
+  };
+  reader.readAsDataURL(file);
+}
+
+// Call this in INIT
+function init() {
+  if (settings.date) startCd(settings.date);
+  renderGallery();
+  updateProfileDisplays();   // ← Add this
+}
+
+// Replace your current INIT part at the bottom with:
+init();
+
+// INIT
+if(settings.date) startCd(settings.date);
+renderGallery();
+</script>
+</body>
+</html>
