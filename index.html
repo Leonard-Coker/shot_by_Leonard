@@ -181,25 +181,24 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
+ 
 <header class="site-header">
   <div class="header-inner">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <img id="header-profile" class="profile-pic" src="" alt="Leonard" style="display:none;">
+    <div style="display:flex;align-items:center;gap:10px">
+      <img id="header-profile" class="profile-pic" src="" alt="Leonard">
       <div class="logo-circle" id="default-logo">SL</div>
     </div>
     <div class="header-text">
       <h1 id="ev-title">Shot_by_leonard</h1>
       <p id="ev-sub">At Youth Connekt MRU FORUM 26</p>
     </div>
-    <nav class="header-nav" aria-label="Main navigation">
-      <button class="nav-btn active" onclick="goPage('gallery',this)"><i class="ti ti-camera" aria-hidden="true"></i> Gallery</button>
-      <button class="nav-btn" onclick="goPage('about',this)"><i class="ti ti-info-circle" aria-hidden="true"></i> About</button>
-      <button class="nav-btn" onclick="goPage('contact',this)"><i class="ti ti-mail" aria-hidden="true"></i> Contact</button>
-      <button class="nav-btn" onclick="goPage('dashboard',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Dashboard</button>
+    <nav class="header-nav">
+      <button class="nav-btn active" onclick="goPage('gallery',this)"><i class="ti ti-camera"></i> Gallery</button>
+      <button class="nav-btn" onclick="goPage('about',this)"><i class="ti ti-info-circle"></i> About</button>
+      <button class="nav-btn" onclick="goPage('contact',this)"><i class="ti ti-mail"></i> Contact</button>
+      <button class="nav-btn" onclick="goPage('dashboard',this)"><i class="ti ti-chart-bar"></i> Dashboard</button>
     </nav>
-    <button class="menu-btn" onclick="openDrawer()" aria-label="Open menu"><i class="ti ti-menu-2" aria-hidden="true"></i></button>
+    <button class="menu-btn" onclick="openDrawer()"><i class="ti ti-menu-2"></i></button>
   </div>
   <div id="countdown-bar">
     <span style="font-weight:600">Download available for:</span>
@@ -212,14 +211,13 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
     <span class="cd-badge" id="cd-badge">Active</span>
   </div>
 </header>
-
-<!-- SIDE DRAWER -->
+ 
 <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
-<div class="side-drawer" id="drawer" role="dialog" aria-label="Navigation menu">
+<div class="side-drawer" id="drawer">
   <button class="drawer-close" onclick="closeDrawer()"><i class="ti ti-x"></i></button>
   <div class="drawer-logo">
-    <img id="drawer-profile" class="drawer-profile-pic" src="" alt="Leonard" style="display:none;">
-    <div class="logo-circle" id="drawer-default-logo">SL</div>
+    <img id="drawer-profile" class="drawer-profile-pic" src="" alt="Leonard">
+    <div class="logo-circle" id="drawer-default-logo" style="width:38px;height:38px;font-size:14px">SL</div>
     <span>Shot_by_leonard</span>
   </div>
   <hr class="drawer-divider">
@@ -230,10 +228,10 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
   <hr class="drawer-divider">
   <button class="drawer-item" onclick="goPage('admin');closeDrawer()"><i class="ti ti-lock"></i> Admin</button>
 </div>
-
+ 
 <main>
-
-  <!-- GALLERY PAGE -->
+ 
+  <!-- GALLERY -->
   <div id="page-gallery" class="page active">
     <div class="gallery-header">
       <div>
@@ -243,8 +241,8 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
     </div>
     <div id="gallery-root"></div>
   </div>
-
-  <!-- DASHBOARD PAGE -->
+ 
+  <!-- DASHBOARD -->
   <div id="page-dashboard" class="page">
     <div class="section-title">Dashboard</div>
     <div class="section-sub">Overview of gallery activity</div>
@@ -258,141 +256,106 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
       <div id="recent-uploads" class="admin-photo-grid"></div>
     </div>
   </div>
-
-  <!-- ABOUT PAGE -->
+ 
+  <!-- ABOUT -->
   <div id="page-about" class="page">
     <div class="about-hero">
       <h2>About <span class="about-orange">Shot_by_leonard</span></h2>
       <p>Capturing moments that matter — from youth summits to cultural events across Sierra Leone and beyond. Every frame tells a story worth keeping.</p>
     </div>
     <div class="about-grid">
-      <div class="about-item">
-        <i class="ti ti-camera" aria-hidden="true"></i>
-        <h4>Event Photography</h4>
-        <p>Professional coverage of conferences, forums, and community events with an eye for authentic moments.</p>
-      </div>
-      <div class="about-item">
-        <i class="ti ti-photo" aria-hidden="true"></i>
-        <h4>Portrait &amp; Headshots</h4>
-        <p>Clean, confident portraits for professionals, creatives, and public figures.</p>
-      </div>
-      <div class="about-item">
-        <i class="ti ti-devices" aria-hidden="true"></i>
-        <h4>Digital Delivery</h4>
-        <p>Fast turnaround with high-resolution downloads available right here on this gallery.</p>
-      </div>
-      <div class="about-item">
-        <i class="ti ti-map-pin" aria-hidden="true"></i>
-        <h4>Based in Sierra Leone</h4>
-        <p>Available for local and international events. Reach out via the contact page to discuss bookings.</p>
-      </div>
+      <div class="about-item"><i class="ti ti-camera"></i><h4>Event Photography</h4><p>Professional coverage of conferences, forums, and community events with an eye for authentic moments.</p></div>
+      <div class="about-item"><i class="ti ti-photo"></i><h4>Portrait &amp; Headshots</h4><p>Clean, confident portraits for professionals, creatives, and public figures.</p></div>
+      <div class="about-item"><i class="ti ti-devices"></i><h4>Digital Delivery</h4><p>Fast turnaround with high-resolution downloads available right here on this gallery.</p></div>
+      <div class="about-item"><i class="ti ti-map-pin"></i><h4>Based in Sierra Leone</h4><p>Available for local and international events. Reach out via the contact page to discuss bookings.</p></div>
     </div>
   </div>
-
-  <!-- CONTACT PAGE -->
+ 
+  <!-- CONTACT -->
   <div id="page-contact" class="page">
     <div class="section-title">Contact</div>
     <div class="section-sub">Get in touch for bookings, prints, or collaboration</div>
     <div class="contact-layout">
       <div class="contact-form-panel">
-        <h3><i class="ti ti-send" aria-hidden="true"></i> Send a message</h3>
+        <h3><i class="ti ti-send"></i> Send a message</h3>
         <div class="form-stack">
           <input type="text" id="contact-name" placeholder="Your name">
           <input type="email" id="contact-email" placeholder="Your email">
           <input type="text" id="contact-subject" placeholder="Subject" value="Booking a Session">
           <textarea id="contact-message" placeholder="Your message (e.g. preferred date, type of session, etc.)"></textarea>
-          <button class="btn-primary" onclick="sendBookingEmail()"><i class="ti ti-send" aria-hidden="true"></i> Send Message</button>
+          <button class="btn-primary" onclick="sendBookingEmail()"><i class="ti ti-send"></i> Send Message</button>
         </div>
       </div>
       <div class="social-panel">
-        <h3><i class="ti ti-brand-instagram" aria-hidden="true"></i> Find me online</h3>
+        <h3><i class="ti ti-brand-instagram"></i> Find me online</h3>
         <div class="social-stack">
           <a href="https://instagram.com/shot_by_Leonard" target="_blank" rel="noopener" class="social-item">
-            <i class="ti ti-brand-instagram" aria-hidden="true"></i>
-            <div>
-              <div class="s-main">@shot_by_Leonard</div>
-              <div class="s-sub">Photography portfolio</div>
-            </div>
+            <i class="ti ti-brand-instagram"></i>
+            <div><div class="s-main">@shot_by_Leonard</div><div class="s-sub">Photography portfolio</div></div>
           </a>
           <a href="https://instagram.com/iamleonardcoker" target="_blank" rel="noopener" class="social-item">
-            <i class="ti ti-user-circle" aria-hidden="true"></i>
-            <div>
-              <div class="s-main">@iamleonardcoker</div>
-              <div class="s-sub">Personal Instagram</div>
-            </div>
+            <i class="ti ti-user-circle"></i>
+            <div><div class="s-main">@iamleonardcoker</div><div class="s-sub">Personal Instagram</div></div>
           </a>
-       <div class="social-item" style="cursor:default">
+          <div class="social-item" style="cursor:default">
             <i class="ti ti-calendar"></i>
-            <div><div class="s-main">Book a session</div><div class="s-sub">Use the form above</div></div>
+            <div><div class="s-main">Book a session</div><div class="s-sub">Use the form to enquire</div></div>
           </div>
           <div class="social-item" style="cursor:default">
-            <i class="ti ti-map-pin" aria-hidden="true"></i>
-            <div>
-              <div class="s-main">Freetown, Sierra Leone</div>
-              <div class="s-sub">Available for travel</div>
-            </div>
+            <i class="ti ti-map-pin"></i>
+            <div><div class="s-main">Freetown, Sierra Leone</div><div class="s-sub">Available for travel</div></div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- ADMIN PAGE -->
+ 
+  <!-- ADMIN -->
   <div id="page-admin" class="page">
-    <div id="admin-login-wrap">
+    <div id="admin-login-section">
       <div class="card admin-login-wrap">
-        <div class="lock-circle"><i class="ti ti-lock" aria-hidden="true"></i></div>
+        <div class="lock-circle"><i class="ti ti-lock"></i></div>
         <div class="login-title">Admin access</div>
         <div class="login-sub">Enter your password to manage gallery photos</div>
         <div class="form-group">
           <label>Password</label>
           <input type="password" id="admin-pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPw()">
         </div>
-        <button class="btn-primary" onclick="checkPw()"><i class="ti ti-login" aria-hidden="true"></i> Log in</button>
+        <button class="btn-primary" onclick="checkPw()"><i class="ti ti-login"></i> Log in</button>
         <div class="login-err" id="login-err">Incorrect password. Try again.</div>
       </div>
     </div>
-
+ 
     <div id="admin-panel" style="display:none">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px">
         <div class="section-title">Admin panel</div>
-        <button class="btn-logout" onclick="adminLogout()"><i class="ti ti-logout" aria-hidden="true"></i> Log out</button>
+        <button class="btn-logout" onclick="adminLogout()"><i class="ti ti-logout"></i> Log out</button>
       </div>
-
-      <!-- Event Settings -->
+ 
       <div class="admin-card">
         <h2>Event settings</h2>
         <p class="sub">Update the event name and set the 3-day download window</p>
         <div class="settings-grid">
-          <div class="form-group" style="margin:0">
-            <label>Event name</label>
-            <input type="text" id="ev-name-in" placeholder="e.g. Youth Connect Summit">
-          </div>
-          <div class="form-group" style="margin:0">
-            <label>Event date (start of 3-day window)</label>
-            <input type="date" id="ev-date-in">
-          </div>
+          <div class="form-group" style="margin:0"><label>Event name</label><input type="text" id="ev-name-in" placeholder="e.g. Youth Connect Summit"></div>
+          <div class="form-group" style="margin:0"><label>Event date</label><input type="date" id="ev-date-in"></div>
         </div>
-        <button class="btn-primary" style="width:auto" onclick="saveSettings()"><i class="ti ti-check" aria-hidden="true"></i> Save settings</button>
+        <button class="btn-primary" style="width:auto" onclick="saveSettings()"><i class="ti ti-check"></i> Save settings</button>
       </div>
-
-      <!-- Profile Picture - Only in Admin -->
+ 
       <div class="admin-card">
-        <h2>Profile Picture</h2>
-        <p class="sub">Upload or change the photographer profile picture</p>
+        <h2>Profile picture</h2>
+        <p class="sub">Upload or change the photographer profile picture shown in the header</p>
         <div class="upload-zone">
           <input type="file" id="profile-pic-input" accept="image/*" onchange="changeProfilePic(this.files)">
           <i class="ti ti-user-circle"></i>
-          <p>Upload Profile Picture</p>
-          <small>JPG, PNG, WEBP — Max 8MB</small>
+          <p>Click to upload profile picture</p>
+          <small>JPG, PNG, WEBP — max 8MB</small>
         </div>
-        <div style="margin-top:15px;text-align:center">
-          <img id="profile-preview" src="" alt="Profile Picture" 
-               style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:3px solid var(--orange);display:none;">
+        <div style="margin-top:14px;text-align:center">
+          <img id="profile-preview" src="" alt="Profile" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--orange);display:none">
         </div>
       </div>
-
-      <!-- Upload Photos -->
+ 
       <div class="admin-card">
         <h2>Upload photos</h2>
         <p class="sub">Select photos and assign them to a day</p>
@@ -404,19 +367,18 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
             <option value="Day 3">Day 3</option>
           </select>
         </div>
-        <div class="upload-zone">
-          <input type="file" id="file-in" multiple accept="image/*" onchange="handleFiles(this.files)">
-          <i class="ti ti-upload" aria-hidden="true"></i>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="file-in" multiple accept="image/*">
+          <i class="ti ti-upload"></i>
           <p>Click to select or drag &amp; drop</p>
           <small>JPG, PNG, WEBP — multiple files allowed</small>
         </div>
         <div class="preview-grid" id="preview-grid"></div>
-        <div id="upload-actions" style="margin-top:12px;display:none">
-          <button class="btn-primary" style="width:auto" onclick="addPhotos()"><i class="ti ti-photo-plus" aria-hidden="true"></i> Add to gallery</button>
+        <div id="upload-actions" style="margin-top:14px;display:none">
+          <button class="btn-primary" style="width:auto" id="add-btn"><i class="ti ti-photo-plus"></i> Add to gallery</button>
         </div>
       </div>
-
-      <!-- Manage Photos -->
+ 
       <div class="admin-card">
         <h2>Manage photos</h2>
         <p class="sub">Remove photos from the gallery</p>
@@ -424,26 +386,23 @@ main{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
       </div>
     </div>
   </div>
-
+ 
 </main>
-
+ 
 <footer style="text-align:center;color:var(--muted);font-size:12px;padding:24px 12px 40px">
   &copy; 2026 Shot_by_leonard. All rights reserved.
 </footer>
-
-<!-- LIGHTBOX -->
+ 
 <div class="lightbox" id="lightbox" onclick="closeLb(event)">
   <div class="lb-inner">
     <button class="lb-close" onclick="closeLb()"><i class="ti ti-x"></i></button>
     <img id="lb-img" src="" alt="">
     <p class="lb-name" id="lb-name"></p>
-    <div class="lb-actions">
-      <a id="lb-dl" class="lb-dl" download><i class="ti ti-download" aria-hidden="true"></i> Download</a>
-    </div>
+    <div class="lb-actions"><a id="lb-dl" class="lb-dl" download><i class="ti ti-download"></i> Download</a></div>
   </div>
 </div>
-
-<div class="toast" id="toast"></div>
+ 
+<div class="toast
 
 <script>
 const PW = "Leonard23";
